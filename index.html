@@ -24,22 +24,24 @@
     <div id='map'></div>
 
     <script>
-    var map = L.map('map').setView([51.505, -0.09], 13);
+    var map = L.map('map', {
+        center: [12.02, -61.7],
+        zoom: 13,
+        zoomControl: true,
+        crs: L.CRS.EPSG4326
+    
+    })
 
-    var osmLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap<\/a> contributors'
+    var orthos_2017 =  L.tileLayer.wms('https://grennode.gov.gd/geoserver/ows', {
+    layers: 'gog:GrenadaLidar_2017-RGB', attribution: '&copy; <a href="https://grennode.gov.gd">Government of Grenada<\/a> '
     }).addTo(map);
 
-    var stamenLayer = L.tileLayer('//stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.png', {
-        attribution:
-            'Map tiles by <a href="http://stamen.com">Stamen Design<\/a>, ' +
-            '<a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0<\/a> &mdash; ' +
-            'Map data {attribution.OpenStreetMap}',
-        minZoom: 1,
-        maxZoom: 16
-    }).addTo(map)
+    var orthos_1951 = L.tileLayer.wms('https://grennode.gov.gd/geoserver/ows', {
+        layers: 'gog:Grenada_ORTHO_1951', attribution: '&copy; <a href="https://grennode.gov.gd">Government of Grenada<\/a>'
+    }).addTo(map);
+    
 
-    L.control.splitMap(stamenLayer, osmLayer).addTo(map);
+    L.control.splitMap(orthos_2017, orthos_1951).addTo(map);
     </script>
 </body>
 </html>
